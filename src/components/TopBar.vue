@@ -9,22 +9,33 @@
    <h3>获取积分</h3>
    <h3>叮当狼官网</h3>
   </div>
-   <div class="click" @click="onShowlogin">登录</div>
+   <div class="click" @click="onShowlogin" v-if="!token">登录</div>
+   <div class="click" v-if="token">购物车</div>
   </div>
-
   </div>
+  <button @click="ontokon">1</button>
 </div>
 </template>
 <script>
 // import { mapMutations } from 'vuex'
 export default {
   computed: {
+  },
+  data () {
+    return {
+      token: localStorage.getItem('tokon')
+    }
+  },
+  created: {
 
   },
   methods: {
     // ...mapMutations('ShowLogin', ['onShowLogin']),
     onShowlogin () {
       this.$store.commit('ShowLogin/onShowLogin', true)
+    },
+    ontokon () {
+      localStorage.removeItem('tokon')
     }
   }
 }

@@ -10,7 +10,7 @@
       </div>
       <div class="body">
       <div class="inpuot" v-show="isBody">
-        <input class="inp" type="text" placeholder="请输入手机号">
+        <input class="inp" ref="popin" type="text" v-model="number" placeholder="请输入手机号">
          <div class="item">
         <slide-verify :l="42"
             :r="20"
@@ -25,8 +25,9 @@
             ></slide-verify>
           </div>
         <div class="item">
-          <input type="text" placeholder="请输入验证码">
-          <button @click="onCodetime">{{code}}</button>
+          <input type="text" placeholder="请输入验证码" v-model="smsCode">
+          <button @click="onCodetime" v-show="isSumde">{{code}}</button>
+          <button @click="onCodetime" v-show="!isSumde">{{cunt}}秒</button>
         </div>
         <button class="btn" @click="onmitLogin">登录</button>
       </div>
@@ -38,13 +39,17 @@
   </div>
 </template>
 <script>
+import { postCode } from '../request/api'
 export default {
   data () {
     return {
       isBody: true,
       msg: '向右滑动',
-      code: '获取验证码'
-
+      code: '获取验证码',
+      cunt: 10,
+      isSumde: true,
+      number: '',
+      smsCode: ''
     }
   },
   methods: {
@@ -56,8 +61,12 @@ export default {
     },
     // 拼图成功
     onSuccess (times) {
+      // if (this.number === '') {
+      //   return alert('请输入手机号码')
+      // }
       const ms = (times / 1000).toFixed(1)
       this.msg = 'login success,耗时' + ms + '秒'
+      console.log(this.number)
     },
     // 失败
     onFail () {
@@ -68,20 +77,49 @@ export default {
       this.msg = '再试一次'
     },
     // dianjidengl
-    onmitLogin () {
+    async onmitLogin () {
+      if (this.number === '') {
+        return alert('手机号')
+      }
       if (this.msg === '再试一次' || this.msg === '向右滑动') {
         alert('请滑动到指定位置')
         return
       }
-      alert('滑动通过')
+      const res = await postCode({ isParty: this.isSumde, mobile: this.number, smsCode: this.smsCode })
+      console.log(res)
+      const tokon = 'ksjdu'
+      localStorage.setItem('tokon', tokon)
+      alert('登录成功')
+      this.$store.commit('ShowLogin/onShowLogin', false)
     },
     // 获取验证码
     onCodetime () {
-      const timess = 60
-      setInterval(() => {
-        this.timess--
+      const reg = /^1[3-9]\d{9}$/
+      if (reg.test(this.number) || this.number === '') {
+        alert('手机号码格式不对')
+        this.$refs.popin.focus()
+        return
+      }
+      if (this.msg === '再试一次' || this.msg === '向右滑动') {
+        return alert('请滑动到指定位置')
+      }
+      if (!this.isSumde) {
+        return
+      }
+      this.isSumde = false
+      // 短信请求
+      console.log(this.smsCode)
+      const time = setInterval(() => {
+        this.cunt--
+        if (this.cunt === 5) {
+          this.smsCode = '123456'
+        }
+        if (this.cunt === 0) {
+          this.isSumde = true
+          clearInterval(time)
+          this.cunt = 10
+        }
       }, 1000)
-      this.code = '倒计时' + timess + '秒'
     }
   }
 }
@@ -126,7 +164,6 @@ export default {
       }
     }
     .body{
-      background: #946060;
        width: 360px;
        height: 200px;
        margin: 0 auto;
@@ -138,7 +175,7 @@ export default {
         .inp{
           width: 100%;
           height: 50px;
-          border:1px solid #000 ;
+          border:1px solid #514e4e ;
         }
         .item{
           width: 100%;
@@ -152,7 +189,7 @@ export default {
            height: 50px;
           }
           input{
-            border:1px solid #000 ;
+            border:1px solid #535050 ;
             width: 100%;
             height: 50px;
           }
@@ -163,6 +200,7 @@ export default {
         height: 50px;
         background: #1b11b0;
         margin-top: 20px;
+        border: 0;
 
        }
     }
