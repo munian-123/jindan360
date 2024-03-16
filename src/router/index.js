@@ -9,6 +9,26 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/goods',
+    name: 'goods',
+    component: () => import('../views/GoodsView.vue')
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: () => import('../views/UserView.vue')
+  },
+  {
+    path: '/order',
+    name: 'order',
+    component: () => import('../views/OrderView.vue')
+  },
+  {
+    path: '/free',
+    name: 'free',
+    component: () => import('../views/FreeView.vue')
   }
   // {
   //   path: '/about',
