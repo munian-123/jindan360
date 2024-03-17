@@ -5,11 +5,11 @@
       <img src="../assets/img/indexLogo.6f8ac4f0.png" alt="">
     </div>
     <div class="heads">
-     <span @click="$router.push('/')" :class="$route.path==='/'?'active':''">首页</span>
-     <span @click="$router.push('/goods')" :class="$route.path==='/goods'?'active':''">全部商品</span>
-     <span @click="$router.push('/user')" :class="$route.path==='/user'?'active':''">个人中心</span>
-     <span @click="$router.push('/order')" :class="$route.path==='/order'?'active':''">我的订单</span>
-     <span @click="$router.push('free')" :class="$route.path==='/free'?'active':''">专属福利</span>
+     <span @click="$router.push('/').catch(err=>{})" :class="$route.path==='/'?'active':''">首页</span>
+     <span @click="$router.push('/goods').catch(err=>{})" :class="$route.path==='/goods'?'active':''">全部商品</span>
+     <span @click="$router.push('/user').catch(err=>{})" :class="$route.path==='/user'?'active':''">个人中心</span>
+     <span @click="$router.push('/order').catch(err=>{})" :class="$route.path==='/order'?'active':''">我的订单</span>
+     <span @click="$router.push('free').catch(err=>{})" :class="$route.path==='/free'?'active':''">专属福利</span>
     </div>
     <div class="headss">
       <input type="text" placeholder="输入文字">

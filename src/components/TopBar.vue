@@ -4,41 +4,43 @@
   <div class="text">欢迎来到叩丁狼积分商城</div>
   <div class="text-list">
   <div class="list">
-   <h3>用户名：youk</h3>
+   <h3 @click="onToast">用户名：youk</h3>
    <h3>我的积分：--</h3>
    <h3>获取积分</h3>
    <h3>叮当狼官网</h3>
   </div>
-   <div class="click" @click="onShowlogin" v-if="!token">登录</div>
-   <div class="click" v-if="token">购物车</div>
+   <div class="click" @click="onShowlogin" v-if="tokon">登录</div>
+   <div class="click" v-if="!tokon">
+    购物车</div>
   </div>
   </div>
   <button @click="ontokon">1</button>
 </div>
 </template>
 <script>
-// import { mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 export default {
-  computed: {
-  },
   data () {
     return {
-      token: localStorage.getItem('tokon')
+
     }
   },
-  created: {
-
-  },
   methods: {
+    ...mapState('ShowLogin', ['tokon']),
+
     // ...mapMutations('ShowLogin', ['onShowLogin']),
     onShowlogin () {
       this.$store.commit('ShowLogin/onShowLogin', true)
     },
     ontokon () {
       localStorage.removeItem('tokon')
+    },
+    onToast () {
+      this.$store.commit('ShowLogin/onShowToast', true)
     }
   }
 }
+
 </script>
 <style lang="less" scoped>
 .topbar{

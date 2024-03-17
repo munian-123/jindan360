@@ -29,7 +29,13 @@ const routes = [
     path: '/free',
     name: 'free',
     component: () => import('../views/FreeView.vue')
+  },
+  {
+    path: '/detelis',
+    name: 'detelis',
+    component: () => import('../views/DetelisView.vue')
   }
+
   // {
   //   path: '/about',
   //   name: 'about',
