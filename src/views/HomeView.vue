@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     onDetelis (id) {
-      this.$router.push(`/detelis?id=${id}`)
+      this.$router.push(`/detelis?id=${id}&curmbs=2`)
     }
   }
 }
