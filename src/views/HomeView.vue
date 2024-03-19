@@ -12,7 +12,7 @@
         <div class="text">
         <span>{{ item.alt }}</span>
         <h6>{{ item.title }}</h6>
-        <button class="btn">立即兑换</button>
+        <button class="btn">立即进入</button>
       </div>
       </div>
     </div>
@@ -82,10 +82,9 @@ export default {
   data () {
     return {
       MutliList: [], // 推荐
-      PageParamss: {
-        page: 1,
-        pageSize: 10
-      },
+
+      page: 1,
+      pageSize: 8,
       goodsList: []
 
     }
@@ -93,8 +92,8 @@ export default {
   async created () {
     const res = await getMutliData()
     this.MutliList = res.result
-    // console.log(this.MutliList)
-    const ress = await getNewData(this.PageParamss)
+    console.log(this.MutliList)
+    const ress = await getNewData(this.page, this.pageSize)
 
     this.goodsList = ress.result.items
     console.log(ress.result.items)
@@ -131,6 +130,7 @@ export default {
       .itme{
        width: 285px;
        transition: all 3s;
+       text-align: center;
        img{
         width: 270px;
         height: 250px;

@@ -25,11 +25,21 @@ export const getMutliData = () => {
   return request.get('/home/hot/mutli')
 }
 // 首页-猜你喜欢
-export const getNewData = (data) => {
-  return request.get('/home/goods/guessLike', data)
+export const getNewData = (page, pageSize) => {
+  return request.get('/home/goods/guessLike', {
+    params: {
+      page,
+      pageSize
+    }
+
+  })
 }
 //
 // 商品详情
 export const getGoodsData = (id) => {
   return request.get(`/goods?id=${id}`)
+}
+// 爆款
+export const getHotpreFerence = (url) => {
+  return request(url)
 }

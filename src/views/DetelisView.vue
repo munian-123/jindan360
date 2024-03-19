@@ -31,14 +31,20 @@
         </div>
         <div class="yanshi">
            <span>商品购买</span>
-           <p>规格：</p>
+           <!-- <p>规格：</p> -->
            <div class="specs">
-            <div class="itemLite" v-for="(item, index) in deteliList.specs" :key="index">
-               <h4>{{ item.name }}</h4>
+            <div class="itemLite">
+               <h4>{{ specs[0].name }}:</h4>
                <div class="smdx">
-                <div class="spansss" v-for="(items, index) in item.values" :key="index">{{ items.name }}</div>
+                <div class="spansss" v-for="(items, index) in specs[0].values" :key="index" @click="onSpecsItems(items.name)">{{ items.name }}</div>
                </div>
             </div>
+            <div class="itemLite" v-if="specs.length===2">
+               <h4>{{ specs[1].name }}</h4>
+               <div class="smdx">
+                <div class="spansss" v-for="(item, index) in specs[1].values" :key="index" @click="onItenList(item.name)">{{ item.name }}</div>
+               </div>
+          </div>
            </div>
         </div>
         <div class="btn">
@@ -79,10 +85,21 @@ export default {
     return {
       itemimag: '', // 小图
       imag: '', // 大图
-      deteliList: '', // 详情
+      deteliList: [], // 详情
       cunt: 0,
       goodsList: [],
-      curmbs: this.$route.query.curmbs
+      curmbs: this.$route.query.curmbs,
+      specs: [],
+      specsitem: '', // 规格
+      specsilist: '' // 尺码,
+      // curmbs: this.$route.query.curmbs
+    }
+  },
+  watch: {
+    '$route.query.id': {
+      handler () {
+        this.$router.go(0)
+      }
     }
   },
   async created () {
@@ -90,6 +107,8 @@ export default {
     const res = await getGoodsData(this.$route.query.id)
     console.log(res)
     this.deteliList = res.result
+    this.specs = res.result.specs
+    console.log(this.specs.length)
     this.getNewdata()
   },
   methods: {
@@ -105,15 +124,19 @@ export default {
     onDeteList (id) {
       if (this.$route.query.id === id) return alert('已选中该商品')
       this.$router.push(`/detelis?id=${id}&curmbs=2`)
+    },
+    // 规格选折
+    onSpecsItems (name) {
+      console.log(name)
+      this.specsitem = name
+    },
+    onItenList (name) {
+      this.specsilist = name
+      console.log(name)
     }
-  },
-  watch: {
-    '$route.query.id': {
-      handler () {
-        this.$router.go(0)
-      }
-    }
+    // 规格选折
   }
+
 }
 </script>
 <style lang="less" scoped>
@@ -248,13 +271,15 @@ line-height: 23px;
             }
            .smdx{
               width: 100%;
-              // height: 120px;
+              height: 120px;
+              overflow-y: scroll;
               display: flex;
               flex-wrap: wrap;
               .spansss{
+                cursor: pointer;
                 padding: 5px;
                 border: 1px solid #333333;
-                height: 25px;
+                // height: 25px;
                 text-align: center;
                 display: flex;
                 justify-content: center;
