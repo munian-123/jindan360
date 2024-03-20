@@ -31,22 +31,30 @@
         </div>
         <div class="yanshi">
            <span>商品购买</span>
-           <!-- <p>规格：</p> -->
            <div class="specs">
             <div class="itemLite">
                <h4>{{ specs[0].name }}:</h4>
                <div class="smdx">
-                <div class="spansss" v-for="(items, index) in specs[0].values" :key="index" @click="onSpecsItems(items.name)">{{ items.name }}</div>
+                <div class="spansss" v-for="(items, index) in specs[0].values" :key="index"
+                 @click="onSpecsItems(items.name,index)" :class="cunts===index?'activess':''">{{ items.name }}</div>
                </div>
             </div>
             <div class="itemLite" v-if="specs.length===2">
                <h4>{{ specs[1].name }}</h4>
                <div class="smdx">
-                <div class="spansss" v-for="(item, index) in specs[1].values" :key="index" @click="onItenList(item.name)">{{ item.name }}</div>
+                <div class="spansss" v-for="(item, index) in specs[1].values" :key="index"
+                 @click="onItenList(item.name,index)" :class="cuntss===index?'activess':''">{{ item.name }}</div>
                </div>
           </div>
            </div>
+        <div class="btnmm">
+          <h3>数量：</h3>
+        <button @click="butt">+</button>
+        <input type="text" v-model="value">
+        <button @click="buts">-</button>
+       </div>
         </div>
+
         <div class="btn">
           <button>加入购物车</button>
           <button class="bnt">立即购买</button>
@@ -70,8 +78,8 @@
       <img :src="deteliList.details.pictures[0]" alt="">
     </div>
     </div>
-
   </div>
+
   </div>
 </template>
 <script>
@@ -91,7 +99,10 @@ export default {
       curmbs: this.$route.query.curmbs,
       specs: [],
       specsitem: '', // 规格
-      specsilist: '' // 尺码,
+      specsilist: '', // 尺码,
+      cunts: 10,
+      cuntss: 10,
+      value: 1
       // curmbs: this.$route.query.curmbs
     }
   },
@@ -126,15 +137,28 @@ export default {
       this.$router.push(`/detelis?id=${id}&curmbs=2`)
     },
     // 规格选折
-    onSpecsItems (name) {
+    onSpecsItems (name, index) {
       console.log(name)
       this.specsitem = name
+      this.cunts = index
+      console.log(index, this.cunts)
     },
-    onItenList (name) {
+    onItenList (name, index) {
       this.specsilist = name
       console.log(name)
-    }
+      this.cuntss = index
+    },
     // 规格选折
+    butt () {
+      this.value++
+      console.log(this.value)
+    },
+    buts () {
+      if (this.value === 1) {
+        return
+      }
+      this.value--
+    }
   }
 
 }
@@ -279,11 +303,17 @@ line-height: 23px;
                 cursor: pointer;
                 padding: 5px;
                 border: 1px solid #333333;
+                color: #2615c2;
                 // height: 25px;
                 text-align: center;
                 display: flex;
                 justify-content: center;
                 margin: 5px;
+}
+.activess{
+  // border: #FD604D 1px solid;
+  color: #2615c2;
+  background: #3DC36B;
               }
            }
             }
@@ -299,6 +329,25 @@ line-height: 23px;
             margin-left: 20px;
             font-weight: 600;
             font-size: 20px;
+          }
+          .btnmm{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            margin-left: 200px;
+            margin-top: 20px;
+            // width: 100px;
+            height: 40px;
+            // margin-left: 160px;
+            input{
+              width: 20px;
+              height: 25px;
+              text-align: center;
+            }
+            button{
+              height: 30px;
+              width: 30px;
+            }
           }
         }
         .btn{
@@ -379,4 +428,5 @@ line-height: 20px;
     }
 }
 }
+
 </style>

@@ -6,7 +6,7 @@
   </div>
   <TextHers>*精品推荐*</TextHers>
   <div class="textlist">
-    <div class="itme" v-for="(item, index) in MutliList" :key="index">
+    <div class="itme" v-for="(item, index) in MutliList" :key="index" @click="onUserMut(index)">
       <img :src="item.pictures[1]" alt="">
       <div class="call">
         <div class="text">
@@ -82,7 +82,6 @@ export default {
   data () {
     return {
       MutliList: [], // 推荐
-
       page: 1,
       pageSize: 8,
       goodsList: []
@@ -101,6 +100,11 @@ export default {
   methods: {
     onDetelis (id) {
       this.$router.push(`/detelis?id=${id}&curmbs=2`)
+    },
+    // 推荐进入
+    onUserMut (index) {
+      this.$router.push(`/goods?cuntt=${index + 1}`)
+      console.log(index)
     }
   }
 }

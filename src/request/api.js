@@ -41,5 +41,10 @@ export const getGoodsData = (id) => {
 }
 // 爆款
 export const getHotpreFerence = (url) => {
-  return request(url)
+  return request(url, {
+    params: {
+      page: 2,
+      pageSize: 24
+    }
+  })
 }

@@ -16,16 +16,19 @@
          </div>
          <div class="list">
           <h4>分类:</h4>
-          <span>全部</span>
-          <span class="sssss" v-for="item in hotMap" :key="item.type" @click="onHotMap(item.url,item.type)">
+          <span class="sssss"  v-for="item in hotMap" :key="item.type"
+          @click="onHotMap(item.url,item.type)" :class="item.type===cunt?'active':''">
             {{item.title}}
             </span>
          </div>
-         <!-- <div class="spans">
-              111
-            </div> -->
+         <div class="spans">
+              <span @click="GoodsList(index)" v-for="(item, index) in subTypes"
+               :key="index" :class="index===cunts?'goodsive':''">
+                 {{ item.title }}
+              </span>
+            </div>
       </div>
-      <GoodsList/>
+      <GoodsList :goodsLists="goodsLists"/>
     </div>
   </div>
 </template>
@@ -42,24 +45,42 @@ export default {
     return {
       curmbs: this.$route.query.curmbs,
       hotMap: [
+        { type: '0', title: '全部' },
         { type: '1', title: '特惠推荐', url: '/hot/preference' },
         { type: '2', title: '爆款推荐', url: '/hot/inVogue' },
         { type: '3', title: '一站买全', url: '/hot/oneStop' },
         { type: '4', title: '新鲜好物', url: '/hot/new' }
       ],
       subTypes: [],
-      isShow: false
+      goodsLists: [],
+      isShow: false,
+      cunt: '0',
+      cunts: 10
     }
   },
   created () {
-
+    if (this.$route.query.cuntt) {
+      this.cunt = this.$route.query.cuntt
+    }
+    // this.cunts = this.$route.query.cuntt
   },
   methods: {
     async onHotMap (url, type) {
       console.log(url, type)
+      if (type === '0') {
+        this.$router.go(0)
+        this.cunt = '0'
+      }
       const res = await getHotpreFerence(url)
       console.log(res.result.subTypes)
       this.subTypes = res.result.subTypes
+      this.cunt = type
+      this.cunts = 10
+    },
+    GoodsList (index) {
+      this.goodsLists = this.subTypes[index].goodsItems
+      console.log(index, this.goodsLists)
+      this.cunts = index
     }
   }
 }
@@ -104,16 +125,31 @@ padding: 10px;
             cursor: pointer;
             text-align: center;
           }
-          .sssss{
-            position: relative;
-          }
-          .spans{
-            position: absolute;
-            top: 0;
-            left: 0;
-          }
+
         }
+        .spans{
+         margin-left: 90px;
+         align-items: center;
+         height: 35px;
+         margin-top: 10px;
+        span{
+          font-size: 20px;
+          color: #1297cc;
+          cursor: pointer;
+          border: 1px solid #666666;
+          margin-left: 10px;
+        }
+}
       }
     }
+}
+.active{
+  font-weight: 800;
+  color: #be1d1d;
+  font-size: 20px;
+}
+.goodsive{
+ background: #1297cc;
+ color: #fff;
 }
 </style>

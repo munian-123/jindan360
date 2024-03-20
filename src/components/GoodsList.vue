@@ -18,6 +18,7 @@
   <div class="footer">
     <h1 v-if="isShow">加载更多~~~</h1>
     <h1 v-else>没有更多了~~~</h1>
+    <!-- <h1 v-if="goodsLists">没有更多了~~~</h1> -->
   </div>
     </div>
   </div>
@@ -25,7 +26,7 @@
 <script>
 import { getNewData } from '../request/api'
 export default {
-  props: ['subType'],
+  props: ['goodsLists'],
   data () {
     return {
       page: 2,
@@ -36,20 +37,35 @@ export default {
     }
   },
   created () {
+    console.log(this.goodsLists)
+    if (this.goodsLists) {
+      this.GoodsLists()
+    }
     this.getGoodsData()
     window.addEventListener('scroll', this.handleScroll)
     this.Px = 0
-    console.log(this.subType)
+  },
+  watch: {
+    goodsLists: {
+      handler () {
+        this.GoodsLists()
+      }
+    }
   },
   mounted () {
-    window.addEventListener('scroll', this.handleScroll)
-    console.log(window.innerHeight, window.screenY, document.body.scrollHeight)
+    // window.addEventListener('scroll', this.handleScroll)
+    // console.log(window.innerHeight, window.screenY, document.body.scrollHeight)
   },
   methods: {
+    // 全部请求
     async getGoodsData () {
       const res = await getNewData(this.page, this.pageSize)
       this.goodsList = res.result.items
       console.log(this.goodsList)
+    },
+    // 分类请求数据
+    GoodsLists () {
+      this.goodsList = this.goodsLists.items
     },
     // 整个页面监听高度
     async handleScroll () {
