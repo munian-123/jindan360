@@ -34,6 +34,11 @@ const routes = [
     path: '/detelis',
     name: 'detelis',
     component: () => import('../views/DetelisView.vue')
+  },
+  {
+    path: '/torlley',
+    name: 'torlley',
+    component: () => import('../views/TorlleyView.vue')
   }
 
   // {

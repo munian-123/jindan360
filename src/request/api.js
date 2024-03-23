@@ -48,3 +48,10 @@ export const getHotpreFerence = (url) => {
     }
   })
 }
+// 搜索
+export const getAllData = () => {
+  return request({
+    methods: 'POST',
+    url: '/search/all'
+  })
+}

@@ -7,6 +7,7 @@
     <FooTers />
     <LoginHers v-show="showLogin" />
   <ToastHers v-show="isToast">*提示框*</ToastHers>
+  <CityType v-show="showCity"/>
   </div>
 </template>
 <script>
@@ -15,6 +16,7 @@ import HeaDers from '../src/components/HeaDers'
 import FooTers from '../src/components/FooTers'
 import LoginHers from '../src/components/LoginHers.vue'
 import ToastHers from '../src/components/ToastHers.vue'
+import CityType from '../src/components/CityType.vue'
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -22,10 +24,11 @@ export default {
     HeaDers,
     FooTers,
     LoginHers,
-    ToastHers
+    ToastHers,
+    CityType
   },
   computed: {
-    ...mapState('ShowLogin', ['showLogin', 'isToast'])
+    ...mapState('ShowLogin', ['showLogin', 'isToast', 'showCity'])
   }
 }
 </script>

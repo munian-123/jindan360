@@ -56,7 +56,7 @@
         </div>
 
         <div class="btn">
-          <button>加入购物车</button>
+          <button @click="onButton">加入购物车</button>
           <button class="bnt">立即购买</button>
         </div>
        </div>
@@ -102,8 +102,10 @@ export default {
       specsilist: '', // 尺码,
       cunts: 10,
       cuntss: 10,
-      value: 1
+      value: 1,
       // curmbs: this.$route.query.curmbs
+      id: this.$route.query.id,
+      goodsViewList: JSON.parse(localStorage.getItem('goodsViewList')) || [] // 购物车数据
     }
   },
   watch: {
@@ -158,9 +160,34 @@ export default {
         return
       }
       this.value--
+    },
+    // 加入购物车
+    onButton () {
+      if (this.specs.length === 2) {
+        if (this.specsitem === '' || this.specsilist === '') return alert('商品购买没选1')
+        this.GoodsViewList()
+        console.log(this.goodsViewList)
+      } else {
+        if (this.specsitem === '') return alert('商品购买没选2')
+        this.GoodsViewList()
+        console.log(this.goodsViewList)
+      }
+    },
+    GoodsViewList () {
+      this.goodsViewList.unshift({
+        id: this.id,
+        value: this.value,
+        specsitem: this.specsitem, // 规格
+        specsilist: this.specsilist, // 尺码,
+        de: 1,
+        deteliList: this.deteliList, // 详情
+        checkbox: true
+      })
+      console.log(this.goodsViewList)
+      // localStorage.removeItem('goodsViewList')
+      localStorage.setItem('goodsViewList', JSON.stringify(this.goodsViewList))
     }
   }
-
 }
 </script>
 <style lang="less" scoped>

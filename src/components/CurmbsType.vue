@@ -6,6 +6,7 @@
     <span v-show="curmbs==='3'">/我的订单</span>
     <span v-show="curmbs==='3'">/个人中心</span>
     <span v-show="curmbs==='4'">/专属福利</span>
+    <span v-show="curmbs==='5'">/购物车</span>
   </div>
 </template>
 <script>

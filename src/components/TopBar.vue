@@ -9,8 +9,8 @@
    <h3>获取积分</h3>
    <h3>叮当狼官网</h3>
   </div>
-   <div class="click" @click="onShowlogin" v-if="tokon">登录</div>
-   <div class="click" v-if="!tokon">
+   <!-- <div class="click" @click="onShowlogin" v-if="tokon">登录</div> -->
+   <div class="click"  @click="onTorlley">
     购物车</div>
   </div>
   </div>
@@ -27,7 +27,6 @@ export default {
   },
   methods: {
     ...mapState('ShowLogin', ['tokon']),
-
     // ...mapMutations('ShowLogin', ['onShowLogin']),
     onShowlogin () {
       this.$store.commit('ShowLogin/onShowLogin', true)
@@ -37,6 +36,9 @@ export default {
     },
     onToast () {
       this.$store.commit('ShowLogin/onShowToast', true)
+    },
+    onTorlley () {
+      this.$router.push('/torlley')
     }
   }
 }
